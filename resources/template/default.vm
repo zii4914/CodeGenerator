@@ -124,6 +124,26 @@
 ##                     import the packages automatically and shorten the name.
 ##                     For example `java.util.List<>` -> `List<>`
 ##
+## Specified Class Type Filter
+## -------------
+## #set($typeTarget = "android.view.View")
+##
+## #set($availableMembers = $class0.members)
+## #set($javaPsiFacade = $JavaPsiFacade.getInstance($project))
+## #set($global = $GlobalSearchScope.allScope($project))
+## #set($xtype = $javaPsiFacade.findClass($typeTarget, $global))
+##
+## #set($availableMembers = [])
+## #set($methodNames = [])
+##
+## #foreach($member in $class0.members)
+##     #set($memberType = $member.type.split("&lt;").get(0))
+##     #set($type = $javaPsiFacade.findClass($memberType, $global))
+##     #if ($type.qualifiedName == $typeTarget || $type.isInheritor($xtype, true))
+##         $availableMembers.add($member)
+##     #end
+## #end
+##
 ## References
 ## ----------
 ## - Velocity syntax: http://velocity.apache.org/engine/1.7/user-guide.html
